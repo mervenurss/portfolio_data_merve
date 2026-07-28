@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mervenur Sarıoğlu — Botanical Data & Topology Lab</title>
+    
+    <!-- Google Fonts: Cormorant Garamond, Plus Jakarta Sans & Reenie Beanie -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Reenie+Beanie&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --dark-green: #0A3323;
+            --moss-green: #839958;
+            --beige: #F7F4D5;
+            --rosy-brown: #D3968C;
+            --midnight-green: #105666;
+            
+            --bg-page: #F7F4D5;
+            --text-dark: #0A3323;
+            --text-muted: #536458;
+            --shadow-soft: 0 12px 30px rgba(10, 51, 35, 0.07);
+            --shadow-hover: 0 20px 40px rgba(10, 51, 35, 0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-dark);
+            padding: 2.5rem 1.5rem;
+            line-height: 1.6;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(211, 150, 140, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(131, 153, 88, 0.18) 0%, transparent 45%);
+            background-attachment: fixed;
+        }
+
+        header {
+            max-width: 900px;
+            margin: 0 auto 3rem auto;
+            text-align: center;
+            position: relative;
+        }
+
+        .fairy-sparkle {
+            position: absolute;
+            color: var(--rosy-brown);
+            font-size: 1.4rem;
+            animation: floatSparkle 3s ease-in-out infinite alternate;
+            user-select: none;
+        }
+
+        @keyframes floatSparkle {
+            from { transform: translateY(0px) rotate(0deg); opacity: 0.6; }
+            to { transform: translateY(-8px) rotate(15deg); opacity: 1; }
+        }
+
+        .avatar-wrapper {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 1.2rem;
+        }
+
+        .icon-avatar {
+            width: 105px;
+            height: 105px;
+            border-radius: 50% 40% 50% 40%;
+            background: linear-gradient(135deg, var(--dark-green), var(--midnight-green));
+            border: 3px solid #ffffff;
+            box-shadow: 0 8px 25px rgba(10, 51, 35, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .icon-avatar svg {
+            width: 52px;
+            height: 52px;
+            fill: none;
+            stroke: var(--beige);
+            stroke-width: 1.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            transition: transform 0.4s ease;
+        }
+
+        .avatar-wrapper:hover .icon-avatar {
+            transform: scale(1.08) rotate(-4deg);
+            background: linear-gradient(135deg, var(--midnight-green), var(--rosy-brown));
+        }
+
+        .handwritten-note {
+            font-family: 'Reenie Beanie', cursive;
+            font-size: 1.7rem;
+            color: var(--rosy-brown);
+            transform: rotate(-4deg);
+            display: block;
+            margin-bottom: -6px;
+        }
+
+        h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--dark-green);
+            line-height: 1.1;
+            margin-bottom: 0.8rem;
+        }
+
+        p.bio {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 620px;
+            margin: 0 auto 1.8rem auto;
+            font-style: italic;
+        }
+
+        .social-chips {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 2.5rem;
+        }
+
+        .chip {
+            text-decoration: none;
+            color: var(--dark-green);
+            background: rgba(255, 255, 255, 0.85);
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid rgba(131, 153, 88, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .chip:hover {
+            background: var(--dark-green);
+            color: var(--beige);
+            transform: translateY(-3px);
+        }
+
+        .filter-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 3.5rem;
+        }
+
+        .filter-btn {
+            border: none;
+            background: rgba(255, 255, 255, 0.6);
+            padding: 9px 22px;
+            border-radius: 25px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            color: var(--dark-green);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(10, 51, 35, 0.1);
+        }
+
+        .filter-btn.active {
+            background: var(--dark-green);
+            color: var(--beige);
+            box-shadow: 0 6px 16px rgba(10, 51, 35, 0.2);
+        }
+
+        .grid {
+            max-width: 1350px;
+            margin: 0 auto;
+            column-count: 3;
+            column-gap: 24px;
+        }
+
+        .pin-card {
+            break-inside: avoid;
+            margin-bottom: 24px;
+            background: #ffffff;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(131, 153, 88, 0.18);
+            transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+            cursor: pointer;
+        }
+
+        .pin-card:hover {
+            transform: translateY(-8px) rotate(0.5deg);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .card-visual img {
+            width: 100%;
+            display: block;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .card-content { padding: 1.4rem; }
+
+        .tag-list { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 0.6rem; }
+
+        .tag-leaf {
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 12px;
+            background: rgba(131, 153, 88, 0.15);
+            color: var(--dark-green);
+            text-transform: uppercase;
+        }
+
+        .tag-leaf.pink { background: rgba(211, 150, 140, 0.25); color: #6d2f38; }
+        
+        .tag-leaf.status-completed { 
+            background: #0A3323; 
+            color: #F7F4D5; 
+        }
+        .tag-leaf.status-wip { 
+            background: rgba(16, 86, 102, 0.18); 
+            color: var(--midnight-green); 
+            border: 1px dashed var(--midnight-green);
+        }
+
+        .card-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.45rem;
+            font-weight: 700;
+            color: var(--dark-green);
+            margin-bottom: 0.4rem;
+        }
+
+        .card-desc { font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; }
+
+        .handwritten-annotation {
+            font-family: 'Reenie Beanie', cursive;
+            font-size: 1.35rem;
+            color: var(--rosy-brown);
+            margin-top: 0.8rem;
+            display: block;
+            border-top: 1px dashed rgba(211, 150, 140, 0.4);
+            padding-top: 0.4rem;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(10, 51, 35, 0.65);
+            backdrop-filter: blur(10px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 1.5rem;
+        }
+
+        .modal-card {
+            background: var(--bg-page);
+            width: 100%; max-width: 880px; max-height: 88vh;
+            border-radius: 28px;
+            overflow-y: auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+        }
+
+        .modal-left { background: var(--dark-green); padding: 2rem; display: flex; align-items: center; justify-content: center; }
+        .modal-left img { width: 100%; border-radius: 16px; object-fit: cover; }
+
+        .modal-right { padding: 2.2rem; display: flex; flex-direction: column; justify-content: space-between; background: #ffffff; }
+
+        .modal-close {
+            align-self: flex-end;
+            background: var(--bg-page);
+            border: 1px solid var(--moss-green);
+            width: 38px; height: 38px; border-radius: 50%;
+            font-size: 1.2rem; cursor: pointer; color: var(--dark-green);
+        }
+
+        .btn-fairytale {
+            display: inline-block;
+            background: var(--dark-green);
+            color: var(--beige);
+            padding: 12px 26px; border-radius: 30px;
+            text-decoration: none; font-weight: 600; font-size: 0.9rem;
+            text-align: center; margin-top: 1.5rem; transition: all 0.3s;
+        }
+
+        .btn-fairytale.disabled-btn {
+            background: rgba(10, 51, 35, 0.15);
+            color: var(--text-muted);
+            cursor: default;
+        }
+
+        @media (max-width: 1100px) { .grid { column-count: 2; } }
+        @media (max-width: 750px) { .grid { column-count: 1; } .modal-card { grid-template-columns: 1fr; } .modal-left { display: none; } }
+    </style>
+</head>
+<body>
+
+    <header>
+        <span class="fairy-sparkle" style="top: -10px; left: 15%;">✦</span>
+        <span class="fairy-sparkle" style="top: 20px; right: 18%;">☘</span>
+        
+        <div class="avatar-wrapper">
+            <div class="icon-avatar">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 3C9 7 5 10 5 15C5 18.866 8.134 22 12 22C15.866 22 19 18.866 19 15C19 10 15 3 12 3Z"/>
+                    <path d="M12 22V11"/>
+                    <path d="M12 15C10 13 7.5 12.5 6 13.5"/>
+                    <path d="M12 15C14 13 16.5 12.5 18 13.5"/>
+                    <circle cx="12" cy="7" r="1" fill="var(--beige)" stroke="none"/>
+                    <path d="M12 2V4M10 3H14" stroke-width="1"/>
+                </svg>
+            </div>
+        </div>
+
+        <span class="handwritten-note">welcome to my garden of numbers & topologies...</span>
+        <h1>Mervenur Sarıoğlu</h1>
+        <p class="bio">Mathematics & Computer Science @ Galatasaray University. Exploring Topological Data Analysis, Risk Analytics, and Unstructured Data Engineering.</p>
+
+        <div class="social-chips">
+            <a href="https://github.com/Merrytheprogrammer" target="_blank" class="chip">☘ GitHub</a>
+            <a href="#" class="chip">✦ LinkedIn</a>
+            <a href="#" class="chip">❀ Academic CV</a>
+        </div>
+
+        <div class="filter-container">
+            <button class="filter-btn active" data-filter="all">🌿 All Research</button>
+            <button class="filter-btn" data-filter="tda">🌀 TDA & Financial Risk</button>
+            <button class="filter-btn" data-filter="data-eng">🧹 Data Engineering & Cleaning</button>
+            <button class="filter-btn" data-filter="nlp-ml">🧪 NLP & Predictive ML</button>
+        </div>
+    </header>
+
+    <main class="grid" id="portfolio-grid">
+
+        <!-- 1. TRADING RISK MANAGEMENT -->
+        <article class="pin-card" data-category="tda" data-status="completed" data-title="Trading Risk Management & TDA" data-desc="A topological early warning system applying Vietoris-Rips filtration to a 20-day sliding window of tech stocks (AAPL, MSFT, AMZN, NVDA). Uses L1-Norm spikes of 1D loops (H₁) to detect market geometry breakdown and dynamically minimize risk exposure." data-img="tda-risk.jpg" data-link="https://github.com/Merrytheprogrammer/trading_risk_management">
+            <div class="card-visual"><img src="tda-risk.jpg" alt="Trading Risk Management & TDA"></div>
+            <div class="card-content">
+                <div class="tag-list">
+                    <span class="tag-leaf status-completed">Completed ✓</span>
+                    <span class="tag-leaf">TDA</span>
+                    <span class="tag-leaf pink">H₁ Loops</span>
+                </div>
+                <h2 class="card-title">Trading Risk Management & TDA</h2>
+                <p class="card-desc">Detecting topological market breakdown via persistent homology on sliding time windows.</p>
+                <span class="handwritten-annotation">✦ Algorithmic Early Warning System</span>
+            </div>
+        </article>
+
+        <!-- 2. PROJECT MANAGEMENT RISK ANALYTICS -->
+        <article class="pin-card" data-category="data-eng" data-status="completed" data-title="Project Management Risk Analytics" data-desc="End-to-end cleaning and analysis pipeline of a real-world messy project risk dataset. Features a data integrity-driven strategy using column standardizations, decision-driven category preserving imputation, and signal processing for maturity metrics." data-img="project-risk.jpg" data-link="https://github.com/Merrytheprogrammer/MESSY_PROJECTMANAGEMENT_DATA">
+            <div class="card-visual"><img src="project-risk.jpg" alt="Project Management Risk Analytics"></div>
+            <div class="card-content">
+                <div class="tag-list">
+                    <span class="tag-leaf status-completed">Completed ✓</span>
+                    <span class="tag-leaf">Data Cleaning</span>
+                    <span class="tag-leaf pink">Imputation</span>
+                </div>
+                <h2 class="card-title">Project Management Risk Analytics</h2>
+                <p class="card-desc">Decision-driven category preservation & signal processing for maturity metrics.</p>
+                <span class="handwritten-annotation">☘ Messy Data Pipeline Architecture</span>
+            </div>
+        </article>
+
+        <!-- 3. RAW GOOGLE NEWS PROCESSING PIPELINE -->
+        <article class="pin-card" data-category="data-eng" data-status="completed" data-title="Raw Google News Processing Pipeline" data-desc="A dataset cleaning and processing pipeline focused on handling structural text abnormalities, raw data inconsistencies, and data preparation pipelines designed to transition messy, unstructured news elements into clean modeling features." data-img="news-pipeline.jpg" data-link="https://github.com/Merrytheprogrammer/Raw-Google-News">
+            <div class="card-visual"><img src="news-pipeline.jpg" alt="Raw Google News Processing Pipeline"></div>
+            <div class="card-content">
+                <div class="tag-list">
+                    <span class="tag-leaf status-completed">Completed ✓</span>
+                    <span class="tag-leaf">NLP Cleaning</span>
+                    <span class="tag-leaf">Feature Prep</span>
+                </div>
+                <h2 class="card-title">Raw Google News Processing</h2>
+                <p class="card-desc">Transforming raw unstructured text abnormalities into clean predictive features.</p>
+                <span class="handwritten-annotation">❀ Text Normalization & Feature Extraction</span>
+            </div>
+        </article>
+
+        <!-- 4. CREDIT RISK MODELING -->
+        <article class="pin-card" data-category="nlp-ml" data-status="wip" data-title="Credit Risk Modeling" data-desc="Statistical and machine learning pipeline evaluating probability of default (PD), loss given default (LGD), and exposure modeling for portfolio risk assessment." data-img="credit-risk.jpg" data-link="">
+            <div class="card-visual"><img src="credit-risk.jpg" alt="Credit Risk Modeling"></div>
+            <div class="card-content">
+                <div class="tag-list">
+                    <span class="tag-leaf status-wip">In Progress ✵</span>
+                    <span class="tag-leaf pink">Credit Scoring</span>
+                </div>
+                <h2 class="card-title">Credit Risk Modeling</h2>
+                <p class="card-desc">Portfolio risk scoring, default probability, and exposure modeling.</p>
+                <span class="handwritten-annotation">✵ Active Lab Experiment</span>
+            </div>
+        </article>
+
+        <!-- 5. CHURN PREDICTION + AI ASSISTANT -->
+        <article class="pin-card" data-category="nlp-ml" data-status="wip" data-title="Customer Churn Prediction + AI Retention Assistant" data-desc="Machine learning classifier paired with an AI retention strategy assistant that prescribes customized retention workflows for high-risk customer segments." data-img="churn-ai.jpg" data-link="">
+            <div class="card-visual"><img src="churn-ai.jpg" alt="Customer Churn Prediction + AI Retention Assistant"></div>
+            <div class="card-content">
+                <div class="tag-list">
+                    <span class="tag-leaf status-wip">In Progress ✵</span>
+                    <span class="tag-leaf">Predictive ML</span>
+                    <span class="tag-leaf pink">AI Retention</span>
+                </div>
+                <h2 class="card-title">Customer Churn & AI Assistant</h2>
+                <p class="card-desc">Predictive churn classifier coupled with automated AI retention workflows.</p>
+                <span class="handwritten-annotation">✦ ML Classifier + Action Assistant</span>
+            </div>
+        </article>
+
+        <!-- 6. FAKE NEWS DETECTION -->
+        <article class="pin-card" data-category="nlp-ml" data-status="wip" data-title="Fake News Detection using NLP" data-desc="Natural Language Processing architecture designed to classify misinformation and structural text patterns across multi-source media channels." data-img="fake-news.jpg" data-link="">
+            <div class="card-visual"><img src="fake-news.jpg" alt="Fake News Detection using NLP"></div>
+            <div class="card-content">
+                <div class="tag-list">
+                    <span class="tag-leaf status-wip">In Progress ✵</span>
+                    <span class="tag-leaf">NLP</span>
+                    <span class="tag-leaf">Classification</span>
+                </div>
+                <h2 class="card-title">Fake News Detection using NLP</h2>
+                <p class="card-desc">NLP architecture classifying structural text patterns and misinformation.</p>
+                <span class="handwritten-annotation">☘ Text Classification Engine</span>
+            </div>
+        </article>
+
+    </main>
+
+    <!-- MODAL -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-left"><img src="" id="modal-img" alt="Detail Image"></div>
+            <div class="modal-right">
+                <button class="modal-close" id="modal-close">&times;</button>
+                <div>
+                    <span class="handwritten-note" style="font-size:1.5rem;">research details...</span>
+                    <h2 id="modal-title" style="font-family:'Cormorant Garamond', serif; font-size: 2rem; color: var(--dark-green); margin-bottom: 0.8rem;"></h2>
+                    <p id="modal-desc" style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;"></p>
+                </div>
+                <a href="#" id="modal-btn" class="btn-fairytale" target="_blank">Explore Code / Repository &rarr;</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const pinCards = document.querySelectorAll('.pin-card');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const filter = btn.getAttribute('data-filter');
+                pinCards.forEach(card => {
+                    card.style.display = (filter === 'all' || card.getAttribute('data-category') === filter) ? 'block' : 'none';
+                });
+            });
+        });
+
+        const modalOverlay = document.getElementById('modal-overlay');
+        const modalClose = document.getElementById('modal-close');
+        const modalImg = document.getElementById('modal-img');
+        const modalTitle = document.getElementById('modal-title');
+        const modalDesc = document.getElementById('modal-desc');
+        const modalBtn = document.getElementById('modal-btn');
+
+        pinCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const link = card.getAttribute('data-link');
+                const status = card.getAttribute('data-status');
+                
+                modalTitle.textContent = card.getAttribute('data-title');
+                modalDesc.textContent = card.getAttribute('data-desc');
+                modalImg.src = card.getAttribute('data-img');
+
+                if (status === 'completed' && link) {
+                    modalBtn.href = link;
+                    modalBtn.textContent = 'View Completed Repository →';
+                    modalBtn.classList.remove('disabled-btn');
+                } else {
+                    modalBtn.textContent = '✵ Research & Development in Progress';
+                    modalBtn.href = 'javascript:void(0)';
+                    modalBtn.classList.add('disabled-btn');
+                }
+
+                modalOverlay.style.display = 'flex';
+            });
+        });
+
+        modalClose.addEventListener('click', () => { modalOverlay.style.display = 'none'; });
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) modalOverlay.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
